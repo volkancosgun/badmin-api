@@ -26,6 +26,7 @@ class CustomerGroupRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'max:255',
+            'status' => 'required'
         ];
     }
 }

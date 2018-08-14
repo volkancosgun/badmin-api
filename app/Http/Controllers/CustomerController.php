@@ -17,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where('customers.status', 1)
+        $customers = Customer::where('customers.status', '!=', -1)
             ->select(
                 'customers.*',
                 'users.name as userName',
@@ -61,12 +61,12 @@ class CustomerController extends Controller
         $c->sur_name = $request->sur_name;
         $c->description = $request->description;
         $c->email = $request->email;
+        $c->phone_code = $request->phone_code;
         $c->phone = $request->phone;
-        $c->phone_lang = $request->phone_lang;
+        $c->phone_mobil_code = $request->phone_mobil_code;
         $c->phone_mobil = $request->phone_mobil;
-        $c->phone_mobil_lang = $request->phone_mobil_lang;
+        $c->fax_code = $request->fax_code;
         $c->fax = $request->fax;
-        $c->fax_lang = $request->fax_lang;
         $c->tax = $request->tax;
         $c->tax_number = $request->tax_number;
         $c->iban = $request->iban;
@@ -77,12 +77,13 @@ class CustomerController extends Controller
         // Müşteri kaydet
         $c->save();
 
+        // Kaydedilen müşteri Idsi
         $insert_id = $c->id;
 
         // Müşteri adres kaydet
-        $this->_locationAdd($insert_id, $request);
+        //$this->_locationAdd($insert_id, $request);
 
-        return response()->json(['status' => $c->save(), 'pid' => $insert_id], Response::HTTP_CREATED);
+        return response()->json($c, Response::HTTP_CREATED);
 
     }
 
@@ -90,8 +91,8 @@ class CustomerController extends Controller
     {
         $response = $this->_locationAdd($id, $request);
 
-            return response()->json(['status' => $response, 'pid' => $id], Response::HTTP_CREATED);
-        
+        return response()->json($response, Response::HTTP_CREATED);
+
     }
 
     private function _locationAdd($customer_id, $data)
@@ -102,17 +103,18 @@ class CustomerController extends Controller
         $cl->location_type = $data->l_type;
         $cl->description = $data->l_description;
         $cl->address = $data->l_address;
-        $cl->city = $data->l_locality;
+        $cl->city = $data->l_city;
         $cl->country = $data->l_country;
         $cl->lat = $data->l_lat;
         $cl->lng = $data->l_lng;
-        $cl->locality = $data->l_city;
+        $cl->locality = $data->l_locality;
         $cl->place_id = $data->l_place_id;
         $cl->postal_code = $data->l_postal_code;
         $cl->route = $data->l_route;
         $cl->street_number = $data->l_street_number;
         $cl->status = 1;
-        return $cl->save();
+        $cl->save();
+        return $cl;
     }
 
     private function getNextCustomerNumber()
@@ -158,10 +160,16 @@ class CustomerController extends Controller
         return response()->json(['error' => true], Response::HTTP_NOT_FOUND);
     }
 
+    public function findLocations($id)
+    {
+        $customer_locations = CustomerLocation::where(['customer_id' => $id, 'status' => 1])->get();
+        return response()->json($customer_locations, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+    }
+
     public function showLocation($id)
     {
         $cl = CustomerLocation::find($id);
-        if($cl) {
+        if ($cl) {
             return response()->json($cl, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
         }
 
@@ -197,19 +205,21 @@ class CustomerController extends Controller
         $c->sur_name = $request->sur_name;
         $c->description = $request->description;
         $c->email = $request->email;
+        $c->phone_code = $request->phone_code;
         $c->phone = $request->phone;
-        $c->phone_lang = $request->phone_lang;
+        $c->phone_mobil_code = $request->phone_mobil_code;
         $c->phone_mobil = $request->phone_mobil;
-        $c->phone_mobil_lang = $request->phone_mobil_lang;
+        $c->fax_code = $request->fax_code;
         $c->fax = $request->fax;
-        $c->fax_lang = $request->fax_lang;
         $c->tax = $request->tax;
         $c->tax_number = $request->tax_number;
         $c->iban = $request->iban;
         $c->bic = $request->bic;
         $c->sepa = $request->sepa;
-        $c->save();
-        return response()->json($c->save(), Response::HTTP_OK);
+        $c->status = $request->status;
+        $c->update();
+
+        return response()->json($c, Response::HTTP_OK);
     }
 
     public function updateLocation(Request $request, $id)
@@ -219,17 +229,17 @@ class CustomerController extends Controller
         $cl->location_type = $request->l_type;
         $cl->description = $request->l_description;
         $cl->address = $request->l_address;
-        $cl->city = $request->l_locality;
+        $cl->city = $request->l_city;
         $cl->country = $request->l_country;
         $cl->lat = $request->l_lat;
         $cl->lng = $request->l_lng;
-        $cl->locality = $request->l_city;
+        $cl->locality = $request->l_locality;
         $cl->place_id = $request->l_place_id;
         $cl->postal_code = $request->l_postal_code;
         $cl->route = $request->l_route;
         $cl->street_number = $request->l_street_number;
-        $cl->save();
-        return response()->json($cl->save(), Response::HTTP_OK);
+        $cl->update();
+        return response()->json($cl, Response::HTTP_OK);
     }
 
     /**

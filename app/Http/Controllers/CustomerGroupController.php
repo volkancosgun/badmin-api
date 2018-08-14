@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use App\CustomerGroup;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerGroupRequest;
@@ -17,8 +18,10 @@ class CustomerGroupController extends Controller
      */
     public function index()
     {
-        $groups = CustomerGroup::where('status', 1)->orderBy('id', 'desc')->get();
+        //$groups = CustomerGroup::where('status', 1)->orderBy('id', 'desc')->get();
+        $groups = CustomerGroup::where('status', '!=', -1)->orderBy('id', 'desc')->get();
         return response()->json($groups, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+        //return datatables()->of(CustomerGroup::all())->toJson();
     }
 
     /**
@@ -39,14 +42,14 @@ class CustomerGroupController extends Controller
      */
     public function store(CustomerGroupRequest $request)
     {
-        $group = new \App\CustomerGroup;
+
+        $group = new CustomerGroup;
         $group->user_id = auth()->user()->id;
         $group->name = $request->name;
         $group->description = $request->description;
-        $group->status = 1;
+        $group->status = $request->status;
         $group->save();
-        $last_id = $group->save();
-        return response()->json($group->save(), Response::HTTP_CREATED);
+        return response()->json($group, Response::HTTP_CREATED);
     }
 
     /**
@@ -76,6 +79,11 @@ class CustomerGroupController extends Controller
         //
     }
 
+    public function update_status(Request $request, $id)
+    {
+        return response()->json($request, Response::HTTP_OK);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -88,9 +96,10 @@ class CustomerGroupController extends Controller
         $group = CustomerGroup::find($id);
         $group->name = $request->name;
         $group->description = $request->description;
+        $group->status = $request->status;
 
-        $group->save();
-        return response()->json($group->save(), Response::HTTP_OK);
+        $group->update();
+        return response()->json($group, Response::HTTP_OK);
     }
 
     /**
