@@ -40,6 +40,21 @@ Route::group([
     Route::post('customer/location/update/{id}', 'CustomerController@updateLocation');
     Route::get('customer/location/{id}', 'CustomerController@showLocation');
     Route::get('customer/location/my/{id}', 'CustomerController@findLocations');
+
+    // Product
+    Route::get('product/list', 'Product\ProductController@index');
+    Route::get('product/my/{id}', 'Product\ProductController@show');
+    Route::post('product/store', 'Product\ProductController@store');
+
+    // Product Image
+    Route::post('product/uploadImage', 'Product\ProductPhotoController@store');
+    Route::get('product/photos/{id}', 'Product\ProductPhotoController@show');
+    Route::get('product/photos/delete/{id}', 'Product\ProductPhotoController@destroy');
+
+    // Product Category
+    Route::get('product/categories', 'Product\ProductCategoryController@index');
+    Route::get('product/category/{id}', 'Product\ProductCategoryController@show');
+    Route::post('product/category/store', 'Product\ProductCategoryController@store');
     
 
 });
