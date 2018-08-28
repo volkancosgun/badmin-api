@@ -25,6 +25,7 @@ class Product extends Model
         'palette_price',
         'container_total',
         'container_price',
+        'price',
         'status'
     ];
 }
