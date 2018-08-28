@@ -55,6 +55,17 @@ Route::group([
     Route::get('product/categories', 'Product\ProductCategoryController@index');
     Route::get('product/category/{id}', 'Product\ProductCategoryController@show');
     Route::post('product/category/store', 'Product\ProductCategoryController@store');
+
+    // Product Brand
+    Route::get('product/brands', 'Product\ProductBrandController@index');
+    Route::get('product/brand/my/{id}', 'Product\ProductBrandController@show');
+    Route::post('product/brand/store', 'Product\ProductBrandController@store');
+
+    // Product Model
+    Route::get('product/models', 'Product\ProductModelController@index');
+    Route::get('product/model/{id}', 'Product\ProductModelController@show');
+    Route::get('product/model/brand/{id}', 'Product\ProductModelController@showBrand');
+    Route::post('product/model/store', 'Product\ProductModelController@store');
     
 
 });

@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\ProductBrandRequest;
-use App\ProductBrand;
+use App\Http\Requests\Product\ProductModelRequest;
+use App\ProductModel;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductBrandController extends Controller
+class ProductModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +17,9 @@ class ProductBrandController extends Controller
      */
     public function index()
     {
-        $brands = ProductBrand::where('status', '!=', -1)->get();
+        $models = ProductModel::where('status', '!=', -1)->get();
 
-        return response()->json($brands, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+        return response()->json($models, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
     }
 
     /**
@@ -39,48 +38,23 @@ class ProductBrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductBrandRequest $req)
+    public function store(ProductModelRequest $req)
     {
-        $b = $req->id ? ProductBrand::find($req->id) : new ProductBrand();
+        $m = $req->id ? ProductModel::find($req->id) : new ProductModel();
 
-        $b->name = $req->name;
-        $b->logo = $req->logo ? $this->_logoStore($req->logo) : $this->_logoRestore($req);
-        $b->status = $req->status;
-
+        $m->brand_id = $req->brand_id;
+        $m->name = $req->name;
+        $m->user_id = auth()->user()->id;
+        $m->status = $req->status;
 
         if ($req->id) {
-            $b->update();
+            $m->update();
         } else {
-            $b->save();
+            $m->save();
         }
 
-        return response()->json($b, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+        return response()->json($m, Response::HTTP_CREATED, array(), JSON_PRETTY_PRINT);
 
-    }
-
-    private function _logoRestore($req) {
-        if($req->id) {
-            $brand = ProductBrand::find($req->id);
-            return $brand->logo;
-        }
-
-        return null;
-    }
-
-    private function _logoStore($file)
-    {
-
-        if(!$file) {
-            return false;
-        }
-
-        $img = Image::make($file)->encode('jpg');
-        $img->resize(50,50);
-        $hash = md5($img->__toString());
-        $path = "uploads/brands/{$hash}.jpg";
-        $img->save(public_path($path));
-        $img_url = '/' . $path;
-        return $img_url;
     }
 
     /**
@@ -91,9 +65,16 @@ class ProductBrandController extends Controller
      */
     public function show($id)
     {
-        $brand = ProductBrand::find($id);
+        $model = ProductModel::find($id);
+        
+        return response()->json($model, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+    }
 
-        return response()->json($brand, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
+    public function showBrand($id)
+    {
+        $models = ProductModel::where('brand_id', $id)->where('status', '!=', -1)->get();
+
+        return response()->json($models, Response::HTTP_OK, array(), JSON_PRETTY_PRINT);
     }
 
     /**
