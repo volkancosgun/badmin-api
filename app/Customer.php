@@ -9,6 +9,7 @@ class Customer extends Model
     protected $fillable = [
         'user_id',
         'gender',
+        '_search',
         'group_id',
         'customer_number',
         'business_name',

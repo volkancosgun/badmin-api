@@ -55,6 +55,7 @@ class CustomerController extends Controller
         $c->user_id = auth()->user()->id;
         $c->group_id = $request->group_id;
         $c->gender = $request->gender;
+        $c->_search = $request->_search;
         $c->customer_number = $this->getNextCustomerNumber();
         $c->business_name = $request->business_name;
         $c->business_manager = $request->business_manager;
@@ -200,6 +201,7 @@ class CustomerController extends Controller
         $c = Customer::find($id);
         $c->user_id = auth()->user()->id;
         $c->gender = $request->gender;
+        $c->_search = $request->_search;
         $c->group_id = $request->group_id;
         $c->business_name = $request->business_name;
         $c->business_manager = $request->business_manager;
