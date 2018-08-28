@@ -59,10 +59,13 @@ class ProductController extends Controller
         $p->purchase_price = $req->purchase_price;
         $p->carton_total = $req->carton_total;
         $p->carton_price = $req->carton_price;
+        $p->carton_barcode = $req->carton_barcode;
         $p->palette_total = $req->palette_total;
         $p->palette_price = $req->palette_price;
+        $p->palette_barcode = $req->palette_barcode;
         $p->container_total = $req->container_total;
         $p->container_price = $req->container_price;
+        $p->container_barcode = $req->container_barcode;
         $p->price = $req->price;
         $p->status = $req->status;
 

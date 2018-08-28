@@ -21,10 +21,13 @@ class Product extends Model
         'purchase_price',
         'carton_total',
         'carton_price',
+        'carton_barcode',
         'palette_total',
         'palette_price',
+        'palette_barcode',
         'container_total',
         'container_price',
+        'container_barcode',
         'price',
         'status'
     ];

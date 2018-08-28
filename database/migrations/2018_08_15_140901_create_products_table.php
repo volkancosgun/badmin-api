@@ -46,16 +46,19 @@ class CreateProductsTable extends Migration
             // Karton
             $table->integer('carton_total')->nullable();
             $table->decimal('carton_price', 8, 2)->nullable();
+            $table->string('carton_barcode')->nullable();
 
             // Palet
             $table->integer('palette_total')->nullable();
             $table->decimal('palette_price', 8, 2)->nullable();
+            $table->string('palette_barcode')->nullable();
 
-            // Konteynır
+            // Konteyner
             $table->integer('container_total')->nullable();
             $table->decimal('container_price', 8,2)->nullable();
+            $table->string('container_barcode')->nullable();
             
-            // Birim fiyat
+            // Satış fiyat
             $table->decimal('price', 8, 2)->nullable();
 
             $table->tinyInteger('status')->default(1);
