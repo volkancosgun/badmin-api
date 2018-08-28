@@ -25,6 +25,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
 
+            // Ürün Kodu
+            $table->string('code')->nullable();
+
             // Son kullanma tarihi
             $table->string('expiration_at')->nullable();
 

@@ -49,6 +49,7 @@ class ProductController extends Controller
         $p->category_id = $req->category_id;
         $p->brand_id = $req->brand_id;
         $p->product_number = $req->product_number ? $req->product_number : $this->newProductNumber();
+        $p->code = $req->code;
         $p->name = $req->name;
         $p->description = $req->description;
         $p->expiration_at = $req->expiration_at;
