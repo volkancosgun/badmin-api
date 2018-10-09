@@ -20,6 +20,7 @@ class CreateOrderItemsTable extends Migration
 
             // Ürün Id
             $table->integer('product_id')->unsigned()->default(0);
+            $table->foreign('product_id')->references('id')->on('products');
 
             // Ürün Adı
             $table->string('name')->nullable();

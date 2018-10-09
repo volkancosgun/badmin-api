@@ -20,9 +20,12 @@ class CreateProductsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('category_id')->unsigned()->default(0);
             $table->integer('brand_id')->unsigned()->nullable();
+            $table->integer('model_id')->unsigned()->nullable();
+            $table->integer('tax_id')->unsigned()->nullable();
             
             $table->string('product_number', 6)->nullable();
             $table->string('name');
+            $table->string('_search')->nullable();
             $table->text('description')->nullable();
 
             // Ürün Kodu

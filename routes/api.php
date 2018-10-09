@@ -67,9 +67,14 @@ Route::group([
     Route::get('product/model/brand/{id}', 'Product\ProductModelController@showBrand');
     Route::post('product/model/store', 'Product\ProductModelController@store');
 
+    // Product Taxes
+    Route::get('product/taxes', 'Product\ProductTaxController@index');
+    Route::post('product/tax/store', 'Product\ProductTaxController@store');
+
     // Order Model
     // http://127.0.0.1:8000/v1/api/order/list
     Route::get('order/list', 'Order\OrderController@index');
+    Route::get('order/my/{id}', 'Order\OrderController@show');
     Route::post('order/store', 'Order\OrderController@store');
 
     Route::get('order/item/list/{id}', 'Order\OrderItemController@show');

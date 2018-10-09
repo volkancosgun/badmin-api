@@ -48,9 +48,12 @@ class ProductController extends Controller
         $p->user_id = auth()->user()->id;
         $p->category_id = $req->category_id;
         $p->brand_id = $req->brand_id;
+        $p->model_id = $req->model_id;
+        $p->tax_id = $req->tax_id;
         $p->product_number = $req->product_number ? $req->product_number : $this->newProductNumber();
         $p->code = $req->code;
         $p->name = $req->name;
+        $p->_search = $req->_search;
         $p->description = $req->description;
         $p->expiration_at = $req->expiration_at;
         $p->n_weight = $req->n_weight;

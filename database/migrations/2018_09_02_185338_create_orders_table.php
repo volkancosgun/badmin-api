@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateOrdersTable extends Migration
 {
@@ -17,8 +17,16 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->default(0);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('invoice_number')->nullable();
+            $table->integer('customer_id')->unsigned()->default(0);
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->integer('location_id')->unsigned()->default(0);
+            $table->foreign('location_id')->references('id')->on('customer_locations');
+            $table->string('bill_address')->nullable();
+            $table->string('bill_number')->nullable();
             $table->string('order_number', 6)->nullable();
+            $table->decimal('price', 8, 2)->default(0);
+            $table->decimal('tax_price', 8, 2)->default(0);
+            $table->decimal('total_price', 8, 2)->default(0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
