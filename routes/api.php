@@ -78,6 +78,20 @@ Route::group([
     Route::post('order/store', 'Order\OrderController@store');
 
     Route::get('order/item/list/{id}', 'Order\OrderItemController@show');
+    Route::get('order/invoice/{id}', 'Order\OrderController@newInvoice');
+    Route::get('order/receipt/{id}', 'Order\OrderController@newReceipt');
+    Route::get('order/invoice/save/{id}', 'Order\OrderController@saveInvoice');
+
+
+    // Setting
+    Route::get('setting/sevdesk', 'Setting\SettingController@sevdesk');
+    Route::post('setting/sevdesk/setup', 'Setting\SettingController@sevdeskSetup');
+    Route::get('setting/sevdesk/reset', 'Setting\SettingController@sevdeskReset');
+    Route::get('setting/show', 'Setting\SettingController@show');
+    Route::get('setting/sevdesk/transfer/my/{id}', 'Setting\SettingController@sevdeskTransfer');
     
+    // Stocks
+    Route::post('store/create', 'Stocks\StoreController@store');
+    Route::get('store/list', 'Stocks\StoreController@index');
 
 });

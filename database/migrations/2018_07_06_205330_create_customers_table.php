@@ -39,6 +39,7 @@ class CreateCustomersTable extends Migration
             $table->string('iban')->nullable();
             $table->string('bic')->nullable();
             $table->string('sepa')->nullable();
+            $table->integer('sevdesk_contact_id')->default(0);
             $table->tinyInteger('status');
             $table->timestamps();
         });

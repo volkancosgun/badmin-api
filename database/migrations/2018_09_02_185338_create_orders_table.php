@@ -24,9 +24,13 @@ class CreateOrdersTable extends Migration
             $table->string('bill_address')->nullable();
             $table->string('bill_number')->nullable();
             $table->string('order_number', 6)->nullable();
+            $table->string('delivered_date')->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->decimal('tax_price', 8, 2)->default(0);
             $table->decimal('total_price', 8, 2)->default(0);
+            $table->integer('sevdesk_order_id')->default(0);
+            $table->string('sevdesk_doc_id')->nullable();
+            $table->string('sevdesk_doc_pdf')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
